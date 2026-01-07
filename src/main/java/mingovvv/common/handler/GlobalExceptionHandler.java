@@ -50,7 +50,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
-@RestControllerAdvice
+//@RestControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     private static final String ERROR_LOG_FORMAT = "[{}] 에러 발생 | ErrorCode: {} | 상세: {} | 원인: {}";

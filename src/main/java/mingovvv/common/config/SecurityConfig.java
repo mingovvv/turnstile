@@ -86,7 +86,8 @@ public class SecurityConfig {
                         .requestMatchers("/actuator/**").authenticated()
 
                         // 그 외 모든 요청은 인증 필요
-                        .anyRequest().authenticated()
+//                        .anyRequest().authenticated()
+                        .anyRequest().permitAll()
                 )
 
                 // Form 로그인 비활성화

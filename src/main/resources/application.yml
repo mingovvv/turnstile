@@ -17,6 +17,31 @@ spring:
     serialization:
       write-dates-as-timestamps: false
 
+  # Redis 설정
+  data:
+    redis:
+      # Upstash Redis 연결 정보 (SSL 사용)
+      host: ${REDIS_HOST:nice-koi-28703.upstash.io}
+      port: ${REDIS_PORT:6379}
+      username: ${REDIS_USERNAME:default}
+      password: ${REDIS_PASSWORD:AXAfAAIncDIxMzAwYTQ5Nzc3MjU0MmFlYmE4M2NhNWVhM2VkMTY1ZHAyMjg3MDM}
+      # SSL 설정
+      ssl:
+        enabled: true
+      # 타임아웃 설정
+      timeout: 3000ms
+      # Lettuce 클라이언트 설정
+      lettuce:
+        pool:
+          # 커넥션 풀 최대 크기
+          max-active: 10
+          # 커넥션 풀 최소 유휴 개수
+          min-idle: 2
+          # 커넥션 풀 최대 유휴 개수
+          max-idle: 8
+          # 커넥션 대기 시간 (-1ms는 무제한)
+          max-wait: -1ms
+
   servlet:
     multipart:
       max-file-size: 30MB

@@ -66,6 +66,8 @@ public class Resilience4jRestClientInterceptor implements ClientHttpRequestInter
                 throw re;
             }
             throw new IOException(ex);
+        } catch (Throwable e) {
+            throw new RuntimeException(e);
         }
     }
 
