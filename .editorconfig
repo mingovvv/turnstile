@@ -1,0 +1,13 @@
+root = true
+
+# 모든 파일 공통 설정
+[*]
+charset = utf-8
+end_of_line = lf # 윈도우 개발자도 강제로 리눅스 줄바꿈(LF) 사용
+insert_final_newline = true # 파일 끝에 빈 줄 자동 추가 (Git diff 안 꼬이게)
+trim_trailing_whitespace = true # 줄 끝에 쓸데없는 공백 제거
+
+# 자바 파일 설정
+[*.java]
+indent_style = space # 탭 대신 스페이스
+indent_size = 4 # 4칸 들여쓰기

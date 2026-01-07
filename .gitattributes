@@ -1,0 +1,14 @@
+# 모든 텍스트 파일은 저장소 및 체크아웃 시 LF로 고정
+* text=auto eol=lf
+
+# Windows 전용 배치 파일은 CRLF 유지
+*.bat text eol=crlf
+
+# 바이너리 파일은 줄바꿈 변환 대상 아님
+*.jar binary
+
+*.sh text eol=lf
+
+*.yml text eol=lf
+
+*.yaml text eol=lf

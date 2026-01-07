@@ -1,0 +1,57 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${DB_URL}
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+
+    hikari:
+      maximum-pool-size: 20
+      minimum-idle: 5
+      connection-timeout: 30000
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+
+    show-sql: false
+
+    properties:
+      hibernate:
+        format_sql: false
+        highlight_sql: false
+        use_sql_comments: false
+
+    open-in-view: false
+
+decorator:
+  datasource:
+    enabled: false
+    # enabled: true
+    # datasource-proxy:
+    #   query:
+    #     enable-logging: false
+    #     log-slow-queries: true
+    #     slow-query-threshold: 3000
+    #     log-level: warn
+
+api:
+  test-client:
+    url: aaa
+    connection-timeout: 1s
+    read-timeout: 10s
+    api-key: bbb
+
+
+# Actuator 보안 강화 (꼭 필요한 것만 노출)
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "health, info, metrics, prometheus"
+
+logging:
+  level:
+    root: INFO
+    mingovvv: INFO # 운영에선 INFO 이상만
+    org.hibernate.SQL: INFO

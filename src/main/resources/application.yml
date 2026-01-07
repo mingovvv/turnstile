@@ -1,0 +1,122 @@
+spring:
+
+  # DataSource/JPA AutoConfiguration 제외
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+      - org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration
+
+  application:
+    name: common-jdk25
+  profiles:
+    active: local
+
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: Asia/Seoul
+    serialization:
+      write-dates-as-timestamps: false
+
+  servlet:
+    multipart:
+      max-file-size: 30MB
+      max-request-size: 30MB
+
+# JWT 설정
+jwt:
+  secret-key: ${JWT_SECRET_KEY:your-default-secret-key-change-this-in-production-min-256-bits-required-for-hs256-algorithm}
+  access-token-validity: ${JWT_ACCESS_TOKEN_VALIDITY:3600000}  # 1시간 (밀리초)
+  refresh-token-validity: ${JWT_REFRESH_TOKEN_VALIDITY:604800000}  # 7일(밀리초)
+  issuer: ${JWT_ISSUER:common-jdk25}
+  header: Authorization
+  prefix: Bearer
+
+logging:
+  level:
+    root: INFO
+    org.springframework: INFO
+    org.hibernate: INFO
+
+server:
+  port: 8080
+  servlet:
+    encoding:
+      charset: UTF-8
+      force: true
+
+# Actuator & Micrometer Tracing 설정
+management:
+  tracing:
+    sampling:
+      probability: 1.0 # 1.0=100% 추적
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+feature:
+  db:
+    enabled: false
+  rate-limit:
+    # 레이트 리밋 기능 on/off
+    enabled: false
+    # 윈도우당 허용 요청 수
+    max-requests: 100
+    # 윈도우 크기(초)
+    window-seconds: 60
+  idempotency:
+    # 아이템포턴시 기능 on/off
+    enabled: false
+    # 아이템포턴시 키 헤더명
+    header-name: Idempotency-Key
+    # 응답 캐시 TTL(초)
+    ttl-seconds: 300
+    # 아이템포턴시 적용 HTTP 메서드
+    methods: [POST, PUT]
+  resilience4j:
+    rest-client:
+      # Retry on/off
+      retry-enabled: true
+      # CircuitBreaker on/off
+      circuit-breaker-enabled: true
+      # 기본 인스턴스 이름
+      instance-name: default
+
+async:
+  # @Async 스레드풀 기본값
+  core-pool-size: 4
+  max-pool-size: 8
+  queue-capacity: 100
+  thread-name-prefix: async-
+  await-termination-seconds: 30
+  wait-for-tasks-to-complete-on-shutdown: true
+
+resilience4j:
+  retry:
+    instances:
+      default:
+        # 최대 시도 횟수(초기 1회 포함)
+        max-attempts: 3
+        # 재시도 대기 시간
+        wait-duration: 200ms
+  circuitbreaker:
+    instances:
+      default:
+        # 슬라이딩 윈도우 크기
+        sliding-window-size: 20
+        # HALF_OPEN에서 허용할 호출 수
+        permitted-number-of-calls-in-half-open-state: 5
+        # 실패율 임계치(%)
+        failure-rate-threshold: 50
+        # OPEN 상태 유지 시간
+        wait-duration-in-open-state: 30s
+
+api:
+  test-client:
+    url: aaa
+    connection-timeout: 1s
+    read-timeout: 10s
+    api-key: bbb
+    resilience4j:
+      # 클라이언트별 인스턴스 선택
+      instance-name: default
